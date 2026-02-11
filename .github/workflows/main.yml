@@ -1,0 +1,148 @@
+presentation:
+  title: "Pemanfaatan Aplikasi Color Grab Berbantuan ChatGPT"
+  subtitle: "Untuk Meningkatkan Keterampilan Diagnosis Mesin pada Pembelajaran Pemeliharaan Mesin Kompetensi Keahlian TKR & TSM"
+  
+  author:
+    name: "Benyamin Batau"
+    nim: "240020301078"
+    program: "Pendidikan Teknologi Kejuruan"
+    university: "Universitas Negeri Makassar"
+  
+  supervisors:
+    - name: "Prof. Dr. Darmawang, M.Kes"
+      role: "Pembimbing I"
+    - name: "Prof. Dr. Ir. Muh. Yahya, M.Kes., M.Eng., IPU., ASEAN Eng."
+      role: "Pembimbing II"
+  
+  theme:
+    primary_color: "#64b5f6"
+    background: "linear-gradient(135deg, #0a1929 0%, #1a237e 50%, #283593 100%)"
+  
+  slides:
+    - id: 1
+      type: "cover"
+      title: "PEMANFAATAN APLIKASI COLOR GRAB BERBANTUAN ChatGPT"
+      
+    - id: 2
+      type: "content"
+      title: "🎯 Latar Belakang Penelitian"
+      content:
+        - section: "Masalah Utama"
+          text: "Siswa kesulitan memahami diagnosis kondisi mesin akibat subjektivitas dalam analisis warna busi secara manual"
+        - section: "Gap yang Diidentifikasi"
+          text: "Terbatasnya media pembelajaran interaktif di SMK untuk mendukung pembelajaran teknik otomotif yang praktis dan akurat"
+        - section: "Solusi"
+          text: "Integrasi Teknologi Color Grab + AI (ChatGPT)"
+    
+    - id: 3
+      type: "content"
+      title: "❓ Rumusan Masalah"
+      questions:
+        - "Bagaimana pemanfaatan aplikasi Color Grab berbantuan ChatGPT dalam mengakurasi dan menginterpretasikan data warna insulator busi?"
+        - "Sejauh mana penerapan aplikasi dapat meningkatkan keterampilan siswa pada pembelajaran pemeliharaan mesin?"
+        - "Apakah ada perbedaan hasil belajar yang signifikan antara kelas eksperimen dan kelas kontrol?"
+    
+    - id: 4
+      type: "methodology"
+      title: "🔬 Metodologi Penelitian"
+      design: "Quasi Experimental Design - Nonequivalent Control Group Design"
+      location: "SMKN 1 Sumarorong"
+      sample:
+        experiment: 22
+        control: 22
+      instruments:
+        - type: "Observasi"
+          description: "Mengamati pelaksanaan pembelajaran"
+        - type: "Tes"
+          description: "Pretest dan Posttest"
+      validity:
+        valid_items: 24
+        r_range: "0.403 - 0.778"
+        cronbach_alpha: 0.914
+        category: "SANGAT BAIK"
+    
+    - id: 5
+      type: "statistics"
+      title: "📊 Analisis Statistik"
+      prerequisite_tests:
+        - name: "Normalitas Eksperimen"
+          value: 0.200
+          status: "✓"
+        - name: "Normalitas Kontrol"
+          value: 0.200
+          status: "✓"
+        - name: "Homogenitas"
+          value: 0.543
+          status: "✓"
+      hypothesis_test:
+        t_value: -2.846
+        significance: 0.007
+        alpha: 0.05
+        result: "H₀ DITOLAK"
+    
+    - id: 6
+      type: "comparison"
+      title: "📈 Perbandingan Nilai Pretest & Posttest"
+      data:
+        experiment:
+          pretest: 57.09
+          posttest: 85.68
+          gain: 28.59
+        control:
+          pretest: 51.03
+          posttest: 77.27
+          gain: 26.24
+    
+    - id: 7
+      type: "ngain"
+      title: "📊 Analisis N-Gain (Efektivitas Pembelajaran)"
+      data:
+        experiment:
+          value: 0.74
+          category: "TINGGI"
+        control:
+          value: 0.61
+          category: "SEDANG"
+    
+    - id: 8
+      type: "distribution"
+      title: "📊 Distribusi Kategori Hasil Belajar"
+      experiment:
+        sangat_baik: 18.18
+        baik: 36.36
+        cukup: 22.73
+        kurang: 13.64
+        sangat_kurang: 9.09
+      control:
+        sangat_baik: 31.82
+        baik: 18.18
+        cukup: 27.27
+        kurang: 22.73
+        sangat_kurang: 0
+    
+    - id: 9
+      type: "discussion"
+      title: "💡 Pembahasan"
+      success_factors:
+        - title: "Objektivitas Data"
+          description: "Color Grab memberikan data RGB terukur"
+        - title: "Analisis Kontekstual"
+          description: "ChatGPT menginterpretasi data dan memberikan penjelasan teknis"
+        - title: "Pembelajaran Aktif"
+          description: "Siswa terlibat langsung dalam observasi, pengukuran, dan analisis"
+        - title: "Keterampilan Abad 21"
+          description: "Mengembangkan literasi digital dan kemampuan berpikir kritis"
+    
+    - id: 10
+      type: "conclusion"
+      title: "🎯 Kesimpulan"
+      points:
+        - "Aplikasi Color Grab dan ChatGPT efektif meningkatkan akurasi diagnosis kondisi mesin"
+        - "Penerapan teknologi ini meningkatkan hasil belajar siswa secara signifikan"
+        - "Terdapat perbedaan signifikan dengan N-Gain eksperimen Tinggi (0.74) vs kontrol Sedang (0.61)"
+    
+    - id: 11
+      type: "closing"
+      title: "TERIMA KASIH"
+
+  demo_link: "https://benyaminbatau.github.io/BENYAMIN-BATAU-APP-SPARKPLUG-DIAGNOSIS/"
