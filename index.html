@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presentasi Tesis - Benyamin Batau (Enhanced)</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+        font-family: 'Poppins', sans-serif;
+        height: 100vh;
+        overflow: hidden;
+        transition: background 0.6s ease;
+    }
+    
+    /* Tema Modern Gradient */
+    body {
+        background: linear-gradient(135deg, #0a1929 0%, #1a237e 50%, #283593 100%);
+        color: #e3f2fd;
+    }
+    h2, .accent { color: #64b5f6; text-shadow: 0 0 20px rgba(100, 181, 246, 0.3); }
+    .demo-btn, .nav button, .progress-bar {
+        background: linear-gradient(90deg, #2196f3, #64b5f6);
+        color: #0a1929;
+    }
+    
+    .container { display: flex; height: 100vh; }
+    .sidebar {
+        width: 300px;
+        background: rgba(13, 27, 42, 0.85);
+        backdrop-filter: blur(12px);
+        padding: 40px 28px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border-right: 2px solid rgba(100, 181, 246, 0.2);
+        box-shadow: 4px 0 20px rgba(0,0,0,0.5);
+    }
+    .sidebar h3 { 
+        margin-bottom: 28px; 
+        font-weight: 700; 
+        font-size: 1.4rem;
+        color: #64b5f6;
+        border-bottom: 2px solid rgba(100, 181, 246, 0.3);
+        padding-bottom: 12px;
+    }
+    .sidebar-info {
+        background: rgba(33, 150, 243, 0.1);
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(100, 181, 246, 0.2);
+    }
+    .sidebar-info p { font-size: 0.95rem; line-height: 1.6; margin-bottom: 8px; }
+    .sidebar-info b { color: #64b5f6; }
+    
+    .demo-btn {
+        display: block;
+        padding: 18px;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 14px;
+        font-weight: 700;
+        font-size: 1.05rem;
+        transition: all 0.4s ease;
+        box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4);
+        border: 2px solid rgba(100, 181, 246, 0.3);
+    }
+    .demo-btn:hover { 
+        transform: translateY(-4px) scale(1.02); 
+        box-shadow: 0 15px 40px rgba(33, 150, 243, 0.6);
+    }
+    
+    .slide-container {
+        flex: 1;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 50px;
+    }
+    .slide {
+        display: none;
+        max-width: 1200px;
+        width: 100%;
+        animation: fadeScale 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    .slide.active { display: block; }
+    @keyframes fadeScale { 
+        from { opacity:0; transform:scale(0.94) translateY(20px); } 
+        to { opacity:1; transform:scale(1) translateY(0); } 
+    }
+    
+    h1 { 
+        font-size: 3.2rem; 
+        margin-bottom: 30px; 
+        text-align: center; 
+        font-weight: 800; 
+        background: linear-gradient(135deg, #64b5f6, #2196f3);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: none;
+    }
+    h2 { 
+        font-size: 2.2rem; 
+        margin: 0 0 28px; 
+        font-weight: 700;
+        border-bottom: 3px solid rgba(100, 181, 246, 0.3);
+        padding-bottom: 12px;
+    }
+    p, li { font-size: 1.15rem; line-height: 1.75; margin-bottom: 16px; }
+    ul { margin-left: 32px; list-style-type: none; }
+    ul li:before {
+        content: "▸ ";
+        color: #64b5f6;
+        font-weight: bold;
+        margin-right: 8px;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 25px;
+    }
+    .stat-card {
+        background: rgba(13, 27, 42, 0.6);
+        backdrop-filter: blur(8px);
+        padding: 25px;
+        border-radius: 16px;
+        border: 2px solid rgba(100, 181, 246, 0.2);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        transition: all 0.4s ease;
+    }
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 45px rgba(33, 150, 243, 0.4);
+        border-color: rgba(100, 181, 246, 0.5);
+    }
+    .stat-number {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: #64b5f6;
+        text-align: center;
+        margin: 15px 0;
+        text-shadow: 0 0 30px rgba(100, 181, 246, 0.5);
+    }
+    .stat-label {
+        text-align: center;
+        font-size: 1.1rem;
+        color: #b3e5fc;
+        font-weight: 500;
+    }
+    
+    .chart-container {
+        background: rgba(13, 27, 42, 0.5);
+        backdrop-filter: blur(6px);
+        border-radius: 16px;
+        padding: 25px;
+        margin: 25px 0;
+        border: 2px solid rgba(100, 181, 246, 0.2);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    canvas { max-height: 400px; }
+    
+    .two-column {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        align-items: start;
+    }
+    
+    .highlight-box {
+        background: rgba(33, 150, 243, 0.15);
+        border-left: 4px solid #2196f3;
+        padding: 20px 25px;
+        border-radius: 8px;
+        margin: 20px 0;
+        box-shadow: 0 4px 15px rgba(33, 150, 243, 0.2);
+    }
+    .highlight-box strong {
+        color: #64b5f6;
+        font-size: 1.2rem;
+    }
+    
+    .nav {
+        position: fixed;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 20px;
+        z-index: 100;
+        background: rgba(13, 27, 42, 0.9);
+        padding: 15px 25px;
+        border-radius: 50px;
+        backdrop-filter: blur(12px);
+        border: 2px solid rgba(100, 181, 246, 0.3);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    }
+    .nav button {
+        padding: 14px 30px;
+        border: none;
+        border-radius: 30px;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+    }
+    .nav button:hover { 
+        transform: translateY(-3px) scale(1.05); 
+        box-shadow: 0 8px 25px rgba(33, 150, 243, 0.5); 
+    }
+    .nav button:active { transform: translateY(-1px); }
+    
+    .progress {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: rgba(13, 27, 42, 0.8);
+        z-index: 101;
+    }
+    .progress-bar { 
+        height: 100%; 
+        width: 0%; 
+        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 0 20px rgba(100, 181, 246, 0.8);
+    }
+    
+    #speaker-notes {
+        position: fixed;
+        bottom: 130px;
+        right: 30px;
+        width: 380px;
+        background: rgba(13, 27, 42, 0.95);
+        backdrop-filter: blur(15px);
+        color: #e3f2fd;
+        padding: 20px 25px;
+        border-radius: 16px;
+        font-size: 1rem;
+        line-height: 1.6;
+        display: none;
+        z-index: 150;
+        max-height: 45vh;
+        overflow-y: auto;
+        border: 2px solid rgba(100, 181, 246, 0.3);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+    }
+    #speaker-notes::-webkit-scrollbar { width: 8px; }
+    #speaker-notes::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
+    #speaker-notes::-webkit-scrollbar-thumb { background: #2196f3; border-radius: 10px; }
+    
+    #notes-toggle { 
+        position: fixed;
+        top: 30px;
+        right: 30px;
+        padding: 12px 24px;
+        background: rgba(33, 150, 243, 0.2);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(100, 181, 246, 0.3);
+        border-radius: 30px;
+        color: #e3f2fd;
+        cursor: pointer;
+        z-index: 151;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+    }
+    #notes-toggle:hover {
+        background: rgba(33, 150, 243, 0.4);
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(33, 150, 243, 0.5);
+    }
+    
+    .slide-counter {
+        position: fixed;
+        top: 30px;
+        left: 30px;
+        background: rgba(13, 27, 42, 0.9);
+        backdrop-filter: blur(10px);
+        padding: 12px 24px;
+        border-radius: 30px;
+        border: 2px solid rgba(100, 181, 246, 0.3);
+        color: #64b5f6;
+        font-weight: 700;
+        font-size: 1.1rem;
+        z-index: 151;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+    
+    @media (max-width: 1200px) {
+        .two-column { grid-template-columns: 1fr; }
+        .stats-grid { grid-template-columns: 1fr; }
+    }
+    
+    @media (max-width: 900px) {
+        .container { flex-direction: column; }
+        .sidebar { 
+            width: 100%; 
+            height: auto; 
+            padding: 20px; 
+            border-right: none; 
+            border-bottom: 2px solid rgba(100, 181, 246, 0.2); 
+        }
+        .slide-container { padding: 30px 20px 120px; }
+        h1 { font-size: 2.2rem; }
+        h2 { font-size: 1.8rem; }
+        #speaker-notes { width: 90%; right: 5%; bottom: 140px; }
+        .nav { bottom: 20px; padding: 12px 20px; }
+        .slide-counter, #notes-toggle { top: 15px; }
+    }
+</style>
+</head>
+<body>
+
+<div class="slide-counter" id="slideCounter">1 / 11</div>
+<button id="notes-toggle">📝 Notes</button>
+<div id="speaker-notes"></div>
+
+<div class="container">
+    <div class="sidebar">
+        <div>
+            <h3>📊 Presentasi Tesis</h3>
+            <div class="sidebar-info">
+                <p><b>Peneliti:</b><br>Benyamin Batau</p>
+                <p><b>NIM:</b> 240020301078</p>
+                <p style="margin-top: 15px;"><b>Pembimbing I:</b><br>Prof. Dr. Darmawang, M.Kes</p>
+                <p><b>Pembimbing II:</b><br>Prof. Dr. Ir. Muh. Yahya, M.Kes., M.Eng., IPU., ASEAN Eng.</p>
+            </div>
+            <div style="background: rgba(33, 150, 243, 0.1); padding: 15px; border-radius: 10px; margin-top: 20px; border: 1px solid rgba(100, 181, 246, 0.2);">
+                <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 8px;">
+                    <b>Program Studi:</b><br>Pendidikan Teknologi Kejuruan
+                </p>
+                <p style="font-size: 0.9rem; line-height: 1.5; margin: 0;">
+                    <b>Universitas:</b><br>Universitas Negeri Makassar
+                </p>
+            </div>
+        </div>
+        <a class="demo-btn" href="https://benyaminbatau.github.io/BENYAMIN-BATAU-APP-SPARKPLUG-DIAGNOSIS/" target="_blank">
+            🚀 Buka Aplikasi Demo
+        </a>
+    </div>
+
+    <div class="slide-container">
+        <!-- SLIDE 1: Cover -->
+        <div class="slide active">
+            <h1>PEMANFAATAN APLIKASI COLOR GRAB BERBANTUAN ChatGPT</h1>
+            <p style="text-align:center; font-size:1.5rem; margin: 30px 0; color: #64b5f6;">
+                Untuk Meningkatkan Keterampilan Diagnosis Mesin<br>
+                pada Pembelajaran Pemeliharaan Mesin Kompetensi Keahlian TKR & TSM
+            </p>
+            <div style="text-align: center; margin-top: 50px;">
+                <p style="font-size: 1.8rem; font-weight: 700; margin-bottom: 15px;">BENYAMIN BATAU</p>
+                <p style="font-size: 1.3rem; color: #90caf9;">NIM: 240020301078</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Latar Belakang -->
+        <div class="slide">
+            <h2>🎯 Latar Belakang Penelitian</h2>
+            <div class="highlight-box">
+                <p><strong>Masalah Utama:</strong></p>
+                <p>Siswa kesulitan memahami diagnosis kondisi mesin akibat <b>subjektivitas dalam analisis warna busi secara manual</b></p>
+            </div>
+            <div class="highlight-box">
+                <p><strong>Gap yang Diidentifikasi:</strong></p>
+                <p>Terbatasnya <b>media pembelajaran interaktif</b> di SMK untuk mendukung pembelajaran teknik otomotif yang praktis dan akurat</p>
+            </div>
+            <div style="margin-top: 30px; padding: 25px; background: rgba(33, 150, 243, 0.1); border-radius: 12px; border: 2px solid rgba(100, 181, 246, 0.3);">
+                <p style="font-size: 1.25rem; font-weight: 600; text-align: center; margin: 0;">
+                    💡 <span class="accent">Solusi:</span> Integrasi Teknologi Color Grab + AI (ChatGPT)
+                </p>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Rumusan Masalah -->
+        <div class="slide">
+            <h2>❓ Rumusan Masalah</h2>
+            <ul style="margin-left: 0;">
+                <li style="margin-bottom: 25px;">
+                    <strong style="color: #64b5f6;">1.</strong> Bagaimana pemanfaatan aplikasi Color Grab berbantuan ChatGPT dalam <b>mengakurasi dan menginterpretasikan data warna insulator busi</b> untuk mendukung peningkatan pemahaman siswa terhadap kondisi mesin?
+                </li>
+                <li style="margin-bottom: 25px;">
+                    <strong style="color: #64b5f6;">2.</strong> Sejauh mana penerapan aplikasi Color Grab berbantuan ChatGPT dapat <b>meningkatkan keterampilan siswa</b> pada pembelajaran pemeliharaan mesin Kompetensi Keahlian TKR dan TSM?
+                </li>
+                <li style="margin-bottom: 25px;">
+                    <strong style="color: #64b5f6;">3.</strong> Apakah ada <b>perbedaan hasil belajar yang signifikan</b> antara kelas eksperimen yang menggunakan aplikasi Color Grab berbantuan ChatGPT dengan kelas kontrol yang melaksanakan pembelajaran konvensional?
+                </li>
+            </ul>
+        </div>
+
+        <!-- SLIDE 4: Metodologi (Gabungan) -->
+        <div class="slide">
+            <h2>🔬 Metodologi Penelitian</h2>
+            <div class="two-column">
+                <div>
+                    <h3 style="color: #64b5f6; font-size: 1.4rem; margin-bottom: 15px;">Desain Penelitian</h3>
+                    <div class="highlight-box">
+                        <p><strong>Quasi Experimental Design</strong></p>
+                        <p>Nonequivalent Control Group Design</p>
+                    </div>
+                    
+                    <h3 style="color: #64b5f6; font-size: 1.4rem; margin: 25px 0 15px;">Subjek Penelitian</h3>
+                    <p>🏫 <b>Lokasi:</b> SMKN 1 Sumarorong</p>
+                    <p>👥 <b>Sampel:</b> Siswa kelas XI TKR dan TSM</p>
+                    <div class="stats-grid" style="grid-template-columns: 1fr 1fr; margin-top: 15px;">
+                        <div class="stat-card">
+                            <div class="stat-number" style="font-size: 2.5rem;">22</div>
+                            <div class="stat-label">Eksperimen</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" style="font-size: 2.5rem;">22</div>
+                            <div class="stat-label">Kontrol</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 style="color: #64b5f6; font-size: 1.4rem; margin-bottom: 15px;">Instrumen Penelitian</h3>
+                    <p><b>📋 Observasi:</b> Mengamati pelaksanaan pembelajaran</p>
+                    <p><b>📝 Tes:</b> Pretest dan Posttest</p>
+                    
+                    <div style="background: rgba(33, 150, 243, 0.1); padding: 15px; border-radius: 10px; margin-top: 15px; border: 1px solid rgba(100, 181, 246, 0.2);">
+                        <p style="font-weight: 600; margin-bottom: 10px; color: #64b5f6;">Validitas & Reliabilitas:</p>
+                        <p style="font-size: 1rem;">✓ 24 butir soal valid</p>
+                        <p style="font-size: 1rem;">✓ r-hitung: 0,403 - 0,778</p>
+                        <p style="font-size: 1rem;">✓ Cronbach's Alpha: <b>0,914</b></p>
+                        <p style="font-size: 1rem; margin: 0;">✓ Kategori: <b>SANGAT BAIK</b></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Uji Prasyarat & Hipotesis (Gabungan) -->
+        <div class="slide">
+            <h2>📊 Analisis Statistik</h2>
+            
+            <div class="highlight-box" style="background: rgba(76, 175, 80, 0.15); border-left-color: #4caf50;">
+                <p><strong>✅ Uji Prasyarat Analisis</strong></p>
+                <p>Semua uji prasyarat terpenuhi → Data memenuhi syarat untuk uji statistik parametrik</p>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="prerequisiteChart"></canvas>
+            </div>
+            
+            <div class="two-column" style="margin-top: 25px;">
+                <div class="highlight-box">
+                    <p><strong>Hipotesis:</strong></p>
+                    <p><b>H₀:</b> Tidak ada perbedaan signifikan</p>
+                    <p><b>H₁:</b> Ada perbedaan signifikan</p>
+                </div>
+                <div class="highlight-box" style="background: rgba(33, 150, 243, 0.2);">
+                    <p><strong>Hasil Uji t-Test:</strong></p>
+                    <p style="font-size: 1.8rem; font-weight: 700; color: #64b5f6; margin: 10px 0;">t = -2,846</p>
+                    <p style="font-size: 1.5rem; font-weight: 700; color: #4caf50;">Sig. = 0,007 < 0,05</p>
+                    <p style="font-size: 1.2rem; margin-top: 10px;"><b>H₀ DITOLAK ✓</b></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Perbandingan Pretest-Posttest -->
+        <div class="slide">
+            <h2>📈 Perbandingan Nilai Pretest & Posttest</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Kelas Eksperimen</div>
+                    <div style="display: flex; justify-content: space-around; align-items: center; margin: 20px 0;">
+                        <div>
+                            <div style="font-size: 2rem; color: #ff9800;">57,09</div>
+                            <div style="font-size: 0.9rem;">Pretest</div>
+                        </div>
+                        <div style="font-size: 2rem; color: #64b5f6;">→</div>
+                        <div>
+                            <div class="stat-number" style="font-size: 2.5rem; color: #4caf50;">85,68</div>
+                            <div style="font-size: 0.9rem;">Posttest</div>
+                        </div>
+                    </div>
+                    <div style="text-align: center; padding: 10px; background: rgba(76, 175, 80, 0.2); border-radius: 8px;">
+                        <strong style="font-size: 1.3rem; color: #4caf50;">+28,59 poin</strong>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-label">Kelas Kontrol</div>
+                    <div style="display: flex; justify-content: space-around; align-items: center; margin: 20px 0;">
+                        <div>
+                            <div style="font-size: 2rem; color: #ff9800;">51,03</div>
+                            <div style="font-size: 0.9rem;">Pretest</div>
+                        </div>
+                        <div style="font-size: 2rem; color: #64b5f6;">→</div>
+                        <div>
+                            <div class="stat-number" style="font-size: 2.5rem;">77,27</div>
+                            <div style="font-size: 0.9rem;">Posttest</div>
+                        </div>
+                    </div>
+                    <div style="text-align: center; padding: 10px; background: rgba(100, 181, 246, 0.2); border-radius: 8px;">
+                        <strong style="font-size: 1.3rem; color: #64b5f6;">+26,24 poin</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chart-container" style="margin-top: 30px;">
+                <canvas id="compareChart"></canvas>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: N-Gain Analysis -->
+        <div class="slide">
+            <h2>📊 Analisis N-Gain (Efektivitas Pembelajaran)</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card" style="border-color: #4caf50;">
+                    <div class="stat-label">Kelas Eksperimen</div>
+                    <div class="stat-number" style="color: #4caf50;">0,74</div>
+                    <div style="text-align: center; padding: 15px; background: rgba(76, 175, 80, 0.2); border-radius: 8px; margin-top: 10px;">
+                        <strong style="font-size: 1.5rem; color: #4caf50;">KATEGORI TINGGI</strong>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-label">Kelas Kontrol</div>
+                    <div class="stat-number">0,61</div>
+                    <div style="text-align: center; padding: 15px; background: rgba(100, 181, 246, 0.2); border-radius: 8px; margin-top: 10px;">
+                        <strong style="font-size: 1.5rem; color: #64b5f6;">KATEGORI SEDANG</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chart-container" style="margin-top: 30px;">
+                <canvas id="ngainChart"></canvas>
+            </div>
+            
+            <div class="highlight-box" style="margin-top: 25px; background: rgba(76, 175, 80, 0.15); border-left-color: #4caf50;">
+                <p style="font-size: 1.2rem;"><strong>Kesimpulan:</strong> Pembelajaran dengan aplikasi Color Grab & ChatGPT memiliki <b>efektivitas TINGGI</b> dalam meningkatkan pemahaman siswa</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: Distribusi Kategori Nilai -->
+        <div class="slide">
+            <h2>📊 Distribusi Kategori Hasil Belajar</h2>
+            
+            <div class="two-column">
+                <div class="chart-container">
+                    <h3 style="text-align: center; color: #64b5f6; margin-bottom: 15px;">Kelas Eksperimen</h3>
+                    <canvas id="distribusiEksChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3 style="text-align: center; color: #64b5f6; margin-bottom: 15px;">Kelas Kontrol</h3>
+                    <canvas id="distribusiKonChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="highlight-box" style="margin-top: 25px;">
+                <p><strong>Temuan Kunci:</strong></p>
+                <p>✓ Kelas eksperimen: Dominasi kategori <b>Baik (36,36%)</b> dan distribusi lebih merata</p>
+                <p>✓ Kelas kontrol: Kategori Kurang lebih tinggi (22,73%)</p>
+                <p style="margin: 0;">✓ Keterlibatan siswa lebih konsisten di kelas eksperimen</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: Pembahasan -->
+        <div class="slide">
+            <h2>💡 Pembahasan</h2>
+            
+            <h3 style="color: #64b5f6; font-size: 1.5rem; margin: 25px 0 20px;">Faktor Keberhasilan Pembelajaran</h3>
+            
+            <div class="stats-grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="highlight-box">
+                    <p><strong>1. Objektivitas Data</strong></p>
+                    <p>Color Grab memberikan data RGB terukur, mengurangi subjektivitas analisis warna busi</p>
+                </div>
+                <div class="highlight-box">
+                    <p><strong>2. Analisis Kontekstual</strong></p>
+                    <p>ChatGPT menginterpretasi data dan memberikan penjelasan teknis yang mudah dipahami</p>
+                </div>
+                <div class="highlight-box">
+                    <p><strong>3. Pembelajaran Aktif</strong></p>
+                    <p>Siswa terlibat langsung dalam observasi, pengukuran, dan analisis</p>
+                </div>
+                <div class="highlight-box">
+                    <p><strong>4. Keterampilan Abad 21</strong></p>
+                    <p>Mengembangkan literasi digital dan kemampuan berpikir kritis</p>
+                </div>
+            </div>
+            
+            <div class="highlight-box" style="margin-top: 25px; background: rgba(33, 150, 243, 0.2);">
+                <p><strong>Implikasi Penelitian:</strong></p>
+                <p>• Pembelajaran berbasis teknologi AI efektif meningkatkan hasil belajar siswa vokasi</p>
+                <p>• Integrasi aplikasi mobile dan AI mendukung diagnosis teknis lebih akurat</p>
+                <p style="margin: 0;">• Pendekatan ini dapat diadaptasi untuk kompetensi teknik otomotif lainnya</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: Kesimpulan -->
+        <div class="slide">
+            <h2>🎯 Kesimpulan</h2>
+            
+            <div class="highlight-box" style="background: rgba(76, 175, 80, 0.15); border-left-color: #4caf50;">
+                <p style="font-size: 1.15rem;"><strong>1.</strong> Aplikasi Color Grab dan ChatGPT <b>efektif meningkatkan akurasi diagnosis</b> kondisi mesin melalui analisis warna insulator busi dengan data RGB terukur dan interpretasi AI kontekstual</p>
+            </div>
+            
+            <div class="highlight-box" style="background: rgba(33, 150, 243, 0.2); border-left-color: #2196f3;">
+                <p style="font-size: 1.15rem;"><strong>2.</strong> Penerapan teknologi ini <b>meningkatkan hasil belajar siswa secara signifikan</b> dengan rata-rata posttest kelas eksperimen (85,68) lebih tinggi dari kelas kontrol (77,27)</p>
+            </div>
+            
+            <div class="highlight-box" style="background: rgba(156, 39, 176, 0.15); border-left-color: #9c27b0;">
+                <p style="font-size: 1.15rem;"><strong>3.</strong> Terdapat <b>perbedaan signifikan</b> antara kelas eksperimen dan kontrol (t = -2,846, Sig. = 0,007 < 0,05) dengan N-Gain eksperimen <b>Tinggi (0,74)</b> vs kontrol Sedang (0,61)</p>
+            </div>
+            
+            <div style="margin-top: 30px; padding: 25px; background: linear-gradient(135deg, rgba(33, 150, 243, 0.2), rgba(76, 175, 80, 0.2)); border-radius: 12px; border: 2px solid rgba(100, 181, 246, 0.4); text-align: center;">
+                <p style="font-size: 1.4rem; font-weight: 700; color: #64b5f6; margin: 0;">
+                    ✅ Pembelajaran berbasis Color Grab & ChatGPT terbukti efektif meningkatkan keterampilan diagnosis mesin siswa SMK
+                </p>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: Terima Kasih -->
+        <div class="slide">
+            <h1 style="margin-top: 80px;">TERIMA KASIH</h1>
+            <div style="text-align: center; margin: 50px 0;">
+                <p style="font-size: 2rem; font-weight: 700; margin-bottom: 20px; color: #64b5f6;">BENYAMIN BATAU</p>
+                <p style="font-size: 1.4rem; margin-bottom: 15px;">NIM: 240020301078</p>
+                <p style="font-size: 1.2rem; line-height: 1.8; color: #90caf9;">
+                    Program Studi Pendidikan Teknologi Kejuruan<br>
+                    Universitas Negeri Makassar
+                </p>
+            </div>
+            <div style="text-align: center; margin-top: 60px;">
+                <p style="font-size: 1.1rem; color: #64b5f6;">🙏 Siap menjawab pertanyaan</p>
+            </div>
+        </div>
+
+        <div class="nav">
+            <button onclick="prevSlide()">◀ Prev</button>
+            <button id="playPause" onclick="toggleAutoSlide()">▶ Auto</button>
+            <button onclick="nextSlide()">Next ▶</button>
+        </div>
+
+        <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+    </div>
+</div>
+
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(".slide");
+    const totalSlides = slides.length;
+    let autoSlideInterval = null;
+    let isAutoPlaying = false;
+
+    const notesContent = [
+        "<strong>Slide 1 - Cover:</strong><br>Selamat pagi/siang Bapak/Ibu penguji dan hadirin. Perkenalkan saya Benyamin Batau. Hari ini saya akan mempresentasikan penelitian tesis saya tentang pemanfaatan aplikasi Color Grab berbantuan ChatGPT untuk meningkatkan keterampilan diagnosis mesin siswa SMK.",
+        
+        "<strong>Slide 2 - Latar Belakang:</strong><br>Penelitian ini berangkat dari dua masalah utama: Pertama, siswa kesulitan memahami diagnosis kondisi mesin karena analisis warna busi masih sangat subjektif dan manual. Kedua, keterbatasan media pembelajaran interaktif di SMK. Solusi yang kami tawarkan adalah integrasi teknologi Color Grab yang objektif dengan kecerdasan buatan ChatGPT.",
+        
+        "<strong>Slide 3 - Rumusan Masalah:</strong><br>Dari latar belakang tersebut, kami merumuskan 3 pertanyaan penelitian: Pertama, bagaimana aplikasi ini dapat mengakurasi data warna busi. Kedua, sejauh mana dapat meningkatkan keterampilan siswa. Dan ketiga, apakah ada perbedaan signifikan antara kelas yang menggunakan aplikasi ini dengan kelas konvensional.",
+        
+        "<strong>Slide 4 - Metodologi:</strong><br>Penelitian ini menggunakan desain quasi-experimental dengan 44 siswa kelas XI TKR dan TSM SMKN 1 Sumarorong, dibagi menjadi 22 siswa kelas eksperimen dan 22 siswa kelas kontrol. Instrumen penelitian telah divalidasi dengan sangat baik, terbukti dari nilai Cronbach's Alpha 0,914.",
+        
+        "<strong>Slide 5 - Analisis Statistik:</strong><br>Semua uji prasyarat analisis terpenuhi, sehingga data layak diuji dengan statistik parametrik. Hasil uji t-test independen menunjukkan t-hitung -2,846 dengan signifikansi 0,007 yang lebih kecil dari 0,05. Ini berarti H0 ditolak dan H1 diterima - ada perbedaan signifikan antara kedua kelas.",
+        
+        "<strong>Slide 6 - Perbandingan Nilai:</strong><br>Mari kita lihat perbandingan konkret. Kelas eksperimen meningkat dari 57,09 menjadi 85,68 (naik 28,59 poin), sementara kelas kontrol dari 51,03 menjadi 77,27 (naik 26,24 poin). Grafik ini menunjukkan secara visual bahwa peningkatan kelas eksperimen lebih signifikan.",
+        
+        "<strong>Slide 7 - N-Gain:</strong><br>Efektivitas pembelajaran diukur dengan N-Gain. Kelas eksperimen mencapai 0,74 (kategori TINGGI), sedangkan kelas kontrol 0,61 (kategori SEDANG). Ini membuktikan bahwa pembelajaran dengan Color Grab dan ChatGPT memiliki efektivitas tinggi.",
+        
+        "<strong>Slide 8 - Distribusi Kategori:</strong><br>Distribusi nilai menunjukkan hal menarik. Kelas eksperimen didominasi kategori Baik sebesar 36,36% dengan distribusi yang lebih merata. Sementara kelas kontrol memiliki persentase kategori Kurang yang lebih tinggi (22,73%). Ini menunjukkan keterlibatan dan pemahaman siswa lebih konsisten di kelas eksperimen.",
+        
+        "<strong>Slide 9 - Pembahasan:</strong><br>Keberhasilan ini didukung oleh 4 faktor utama: Pertama, objektivitas data RGB dari Color Grab. Kedua, analisis kontekstual dari ChatGPT. Ketiga, pembelajaran aktif dengan keterlibatan langsung siswa. Dan keempat, pengembangan keterampilan abad 21 seperti literasi digital dan berpikir kritis. Implikasinya, pendekatan ini dapat diadaptasi untuk pembelajaran vokasi lainnya.",
+        
+        "<strong>Slide 10 - Kesimpulan:</strong><br>Kesimpulan penelitian ini: Pertama, aplikasi Color Grab dan ChatGPT efektif meningkatkan akurasi diagnosis. Kedua, terbukti meningkatkan hasil belajar secara signifikan. Ketiga, ada perbedaan signifikan dengan N-Gain kategori tinggi. Secara keseluruhan, pembelajaran berbasis teknologi AI ini terbukti efektif untuk siswa SMK.",
+        
+        "<strong>Slide 11 - Penutup:</strong><br>Demikian presentasi saya. Terima kasih atas perhatian Bapak/Ibu penguji dan hadirin. Saya siap menjawab pertanyaan yang diajukan. Terima kasih."
+    ];
+
+    function updateProgress() {
+        const progress = ((currentSlide + 1) / totalSlides) * 100;
+        document.getElementById("progressBar").style.width = progress + "%";
+        document.getElementById("speaker-notes").innerHTML = notesContent[currentSlide] || "Tidak ada catatan untuk slide ini.";
+        document.getElementById("slideCounter").textContent = `${currentSlide + 1} / ${totalSlides}`;
+    }
+
+    function showSlide(index) {
+        slides.forEach(s => s.classList.remove("active"));
+        slides[index].classList.add("active");
+        updateProgress();
+        
+        // Initialize charts when needed
+        if (index === 4) initPrerequisiteChart();
+        if (index === 5) initCompareChart();
+        if (index === 6) initNGainChart();
+        if (index === 7) initDistribusiCharts();
+    }
+
+    function nextSlide() { 
+        currentSlide = (currentSlide + 1) % totalSlides; 
+        showSlide(currentSlide); 
+    }
+    
+    function prevSlide() { 
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides; 
+        showSlide(currentSlide); 
+    }
+
+    function toggleAutoSlide() {
+        if (isAutoPlaying) {
+            clearInterval(autoSlideInterval);
+            document.getElementById("playPause").innerHTML = "▶ Auto";
+            isAutoPlaying = false;
+        } else {
+            autoSlideInterval = setInterval(nextSlide, 12000);
+            document.getElementById("playPause").innerHTML = "⏸ Pause";
+            isAutoPlaying = true;
+        }
+    }
+
+    document.getElementById("notes-toggle").addEventListener("click", function() {
+        const notes = document.getElementById("speaker-notes");
+        notes.style.display = notes.style.display === "block" ? "none" : "block";
+    });
+
+    document.addEventListener("keydown", e => {
+        if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); nextSlide(); }
+        if (e.key === "ArrowLeft") { e.preventDefault(); prevSlide(); }
+        if (e.key.toLowerCase() === "n") {
+            const notes = document.getElementById("speaker-notes");
+            notes.style.display = notes.style.display === "block" ? "none" : "block";
+        }
+        if (e.key === "f" || e.key === "F11") {
+            e.preventDefault();
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+    });
+
+    // Chart Configurations
+    const chartDefaults = {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+            legend: {
+                labels: { 
+                    color: '#e3f2fd', 
+                    font: { size: 14, family: 'Poppins', weight: '500' } 
+                }
+            }
+        },
+        scales: {
+            y: {
+                ticks: { color: '#90caf9', font: { family: 'Poppins' } },
+                grid: { color: 'rgba(100, 181, 246, 0.1)' }
+            },
+            x: {
+                ticks: { color: '#90caf9', font: { family: 'Poppins' } },
+                grid: { color: 'rgba(100, 181, 246, 0.1)' }
+            }
+        }
+    };
+
+    // Chart: Uji Prasyarat
+    let prerequisiteChart;
+    function initPrerequisiteChart() {
+        if (prerequisiteChart) return;
+        const ctx = document.getElementById('prerequisiteChart');
+        if (!ctx) return;
+        
+        prerequisiteChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Normalitas Eksperimen', 'Normalitas Kontrol', 'Homogenitas'],
+                datasets: [{
+                    label: 'Nilai Signifikansi',
+                    data: [0.200, 0.200, 0.543],
+                    backgroundColor: [
+                        'rgba(76, 175, 80, 0.7)',
+                        'rgba(76, 175, 80, 0.7)',
+                        'rgba(33, 150, 243, 0.7)'
+                    ],
+                    borderColor: [
+                        '#4caf50',
+                        '#4caf50',
+                        '#2196f3'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                ...chartDefaults,
+                plugins: {
+                    ...chartDefaults.plugins,
+                    title: {
+                        display: true,
+                        text: 'Hasil Uji Prasyarat Analisis (Semua > 0.05 ✓)',
+                        color: '#64b5f6',
+                        font: { size: 16, family: 'Poppins', weight: '600' }
+                    }
+                },
+                scales: {
+                    ...chartDefaults.scales,
+                    y: {
+                        ...chartDefaults.scales.y,
+                        beginAtZero: true,
+                        max: 0.6
+                    }
+                }
+            }
+        });
+    }
+
+    // Chart: Perbandingan Pretest-Posttest
+    let compareChart;
+    function initCompareChart() {
+        if (compareChart) return;
+        const ctx = document.getElementById('compareChart');
+        if (!ctx) return;
+        
+        compareChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Pretest', 'Posttest'],
+                datasets: [
+                    {
+                        label: 'Kelas Eksperimen',
+                        data: [57.09, 85.68],
+                        borderColor: '#4caf50',
+                        backgroundColor: 'rgba(76, 175, 80, 0.2)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    },
+                    {
+                        label: 'Kelas Kontrol',
+                        data: [51.03, 77.27],
+                        borderColor: '#2196f3',
+                        backgroundColor: 'rgba(33, 150, 243, 0.2)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }
+                ]
+            },
+            options: {
+                ...chartDefaults,
+                plugins: {
+                    ...chartDefaults.plugins,
+                    title: {
+                        display: true,
+                        text: 'Perbandingan Nilai Rata-Rata',
+                        color: '#64b5f6',
+                        font: { size: 16, family: 'Poppins', weight: '600' }
+                    }
+                },
+                scales: {
+                    ...chartDefaults.scales,
+                    y: {
+                        ...chartDefaults.scales.y,
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+    }
+
+    // Chart: N-Gain
+    let ngainChart;
+    function initNGainChart() {
+        if (ngainChart) return;
+        const ctx = document.getElementById('ngainChart');
+        if (!ctx) return;
+        
+        ngainChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Kelas Eksperimen', 'Kelas Kontrol'],
+                datasets: [{
+                    label: 'Nilai N-Gain',
+                    data: [0.74, 0.61],
+                    backgroundColor: [
+                        'rgba(76, 175, 80, 0.8)',
+                        'rgba(33, 150, 243, 0.8)'
+                    ],
+                    borderColor: [
+                        '#4caf50',
+                        '#2196f3'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                ...chartDefaults,
+                plugins: {
+                    ...chartDefaults.plugins,
+                    title: {
+                        display: true,
+                        text: 'Perbandingan N-Gain (Efektivitas)',
+                        color: '#64b5f6',
+                        font: { size: 16, family: 'Poppins', weight: '600' }
+                    }
+                },
+                scales: {
+                    ...chartDefaults.scales,
+                    y: {
+                        ...chartDefaults.scales.y,
+                        beginAtZero: true,
+                        max: 1.0,
+                        ticks: {
+                            ...chartDefaults.scales.y.ticks,
+                            callback: function(value) {
+                                return value.toFixed(2);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Chart: Distribusi Kategori
+    let distribusiEksChart, distribusiKonChart;
+    function initDistribusiCharts() {
+        if (distribusiEksChart) return;
+        
+        const ctxEks = document.getElementById('distribusiEksChart');
+        const ctxKon = document.getElementById('distribusiKonChart');
+        if (!ctxEks || !ctxKon) return;
+        
+        const pieOptions = {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { 
+                        color: '#e3f2fd', 
+                        font: { size: 12, family: 'Poppins' },
+                        padding: 15
+                    }
+                }
+            }
+        };
+        
+        distribusiEksChart = new Chart(ctxEks, {
+            type: 'doughnut',
+            data: {
+                labels: ['Sangat Baik', 'Baik', 'Cukup', 'Kurang', 'Sangat Kurang'],
+                datasets: [{
+                    data: [18.18, 36.36, 22.73, 13.64, 9.09],
+                    backgroundColor: [
+                        'rgba(76, 175, 80, 0.8)',
+                        'rgba(139, 195, 74, 0.8)',
+                        'rgba(255, 193, 7, 0.8)',
+                        'rgba(255, 152, 0, 0.8)',
+                        'rgba(244, 67, 54, 0.8)'
+                    ],
+                    borderColor: '#0a1929',
+                    borderWidth: 2
+                }]
+            },
+            options: pieOptions
+        });
+        
+        distribusiKonChart = new Chart(ctxKon, {
+            type: 'doughnut',
+            data: {
+                labels: ['Sangat Baik', 'Baik', 'Cukup', 'Kurang', 'Sangat Kurang'],
+                datasets: [{
+                    data: [31.82, 18.18, 27.27, 22.73, 0],
+                    backgroundColor: [
+                        'rgba(33, 150, 243, 0.8)',
+                        'rgba(3, 169, 244, 0.8)',
+                        'rgba(0, 188, 212, 0.8)',
+                        'rgba(255, 152, 0, 0.8)',
+                        'rgba(244, 67, 54, 0.8)'
+                    ],
+                    borderColor: '#0a1929',
+                    borderWidth: 2
+                }]
+            },
+            options: pieOptions
+        });
+    }
+
+    // Initialize
+    showSlide(currentSlide);
+</script>
+</body>
+</html>
